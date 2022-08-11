@@ -8,7 +8,6 @@ import {
 import { Breadcrumb, Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import MovieManagement from '../pages/movie-management/movie-management';
 const { Header, Content, Footer, Sider } = Layout;
 
 function getItem(label, key, icon, children) {
@@ -20,17 +19,26 @@ function getItem(label, key, icon, children) {
     };
 }
 
-const items = [
-    getItem('User', 'sub1', <UserOutlined />, []),
-    getItem('Files', '9', <FileOutlined />, [
-        
-    ]),
-    getItem('Show Time', '2', <DesktopOutlined />),
-
-];
-
 export default function AdminLayout() {
     const navigate = useNavigate();
+    const Click = (e) => {
+        if(e.key === 'F'){
+            navigate('/admin/Film');
+        }else if(e.key === '2'){
+            navigate('/admin/showTime');
+        }else if(e.key === 'sub1'){
+            navigate('/admin/user');
+        }
+
+    }
+    const items = [
+        getItem('User', 'sub1', <UserOutlined />),
+        getItem('Files', '9', <FileOutlined />, [
+            getItem('Film', 'F'),
+        ]),
+        getItem('Show Time', '2', <DesktopOutlined />),
+    
+    ];
     const [collapsed, setCollapsed] = useState(false);
     return (
         <Layout
@@ -42,8 +50,8 @@ export default function AdminLayout() {
                 <div className="logo">
                     <img className='w-100 p-2' src="https://pngimg.com/uploads/mma/mma_PNG14.png" alt="" />
                 </div>
-                <Menu theme="dark" defaultSelectedKeys={['sub1']} mode="inline" items={items} />
-                <button onClick={() => navigate('/admin/movie-management')}>Xem</button>
+                <Menu theme="dark" onClick={Click} mode="inline" items={items} />
+                <button onClick={() => navigate('/admin/login')}>Login</button>
             </Sider>
             <Layout className="site-layout">
                 <Header
@@ -57,14 +65,6 @@ export default function AdminLayout() {
                         margin: '0 16px',
                     }}
                 >
-                    <Breadcrumb
-                        style={{
-                            margin: '16px 0',
-                        }}
-                    >
-                        <Breadcrumb.Item>User</Breadcrumb.Item>
-                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                    </Breadcrumb>
                     <div
                         className="site-layout-background"
                         style={{

@@ -2,7 +2,9 @@ import React from 'react'
 import {useRoutes} from 'react-router-dom'
 import AdminLayout from '../layouts/admin'
 import Film from '../pages/Films/Film/Film'
-import MovieManagement from '../pages/movie-management/movie-management'
+import Login from '../pages/Login/login'
+import ShowTime from '../pages/ShowTimes/showTime'
+import User from '../pages/User/user'
 
 export default function Router() {
     const routing = useRoutes([
@@ -11,12 +13,20 @@ export default function Router() {
             element: <AdminLayout></AdminLayout>,
             children: [
                 {
-                    path: "/admin/movie-management",
-                    element: <MovieManagement></MovieManagement>
+                    path: "/admin/user",
+                    element: <User></User>
                 },
                 {
                     path: "/admin/Film",
                     element: <Film></Film>
+                },
+                {
+                    path: "/admin/showTime",
+                    element: <ShowTime></ShowTime>,
+                },
+                {
+                    path: "/admin/login",
+                    element: <Login></Login>,
                 },
             ]
         }

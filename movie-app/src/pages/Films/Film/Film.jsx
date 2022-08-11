@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from 'antd';
 import { AudioOutlined } from '@ant-design/icons';
 import { Input} from 'antd';
 import { Space, Table, Tag } from 'antd';
+import axios from "axios";
+import { fetchFilmListApi } from '../../../services/filmList';
+import { useEffect } from 'react';
+import './index.scss'
 
 const { Search } = Input;
 const suffix = (
@@ -16,7 +20,7 @@ const suffix = (
 
 
 
-const columns = [
+const DEFAULT_COLUMNS = [
     {
         title: 'Mã phim',
         dataIndex: 'maPhim',
@@ -37,23 +41,6 @@ const columns = [
         title: 'Mô tả',
         key: 'moTa',
         dataIndex: 'moTa',
-        // render: (_, { tags }) => (
-        //     <>
-        //         {tags.map((tag) => {
-        //             let color = tag.length > 5 ? 'geekblue' : 'green';
-
-        //             if (tag === 'loser') {
-        //                 color = 'volcano';
-        //             }
-
-        //             return (
-        //                 <Tag color={color} key={tag}>
-        //                     {tag.toUpperCase()}
-        //                 </Tag>
-        //             );
-        //         })}
-        //     </>
-        // ),
     },
     {
         title: 'Hành động',
@@ -61,29 +48,45 @@ const columns = [
         render: () => {
             return(
                 <div>
-                    <Button type='danger'>Xóa</Button>
-                <Button type='primary'>Sửa</Button>
+                    <Button className='mx-2' type='danger'>Xóa</Button>
+                <Button className='mx-2' type='primary'>Sửa</Button>
                 </div>
                 
             )
         }
     },
 ];
-const data = [
-    {
-        key: '1',
-        maPhim: '1',
-        hinhAnh: 'John Brown',
-        tenPhim: "sd",
-        moTa: 'New York No. 1 Lake Park',
-        hanhDong: "",
-    },
-];
-
 
 const onSearch = (value) => console.log(value);
 
 export default function Film() {
+    const [filmList, setFilmList] = useState([]);
+    const [columns, setColumns] = useState([]);
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        fetchFilmList();
+    }, [])
+
+    useEffect(() => {
+        setData(filmList.map((ele, idx) => {
+            return {
+                key: idx,
+                maPhim: ele.maPhim,
+                hinhAnh: <img src={ele.hinhAnh} className="w-25"></img>,
+                tenPhim: ele.tenPhim,
+                moTa: <span className="label_title">{ele.moTa}</span> ,
+                hanhDong: "",
+            }
+        }))
+        setColumns(DEFAULT_COLUMNS);
+        
+    },[filmList])
+    const fetchFilmList = async () => {
+        const result = await fetchFilmListApi();
+
+        setFilmList(result.data.content);
+    }
     return (
         <div>
             <h2>Quản lý Phim</h2>
