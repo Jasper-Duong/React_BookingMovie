@@ -5,9 +5,13 @@ import {
     TeamOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu } from 'antd';
+import { Breadcrumb, Button, Layout, Menu } from 'antd';
 import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { USER_INFO_KEY } from '../constants/common';
+import './index.scss'
 const { Header, Content, Footer, Sider } = Layout;
 
 function getItem(label, key, icon, children) {
@@ -20,26 +24,46 @@ function getItem(label, key, icon, children) {
 }
 
 export default function AdminLayout() {
+    const userState = useSelector(state => state.userReducer);
+    const [user, setUser] = useState();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const Click = (e) => {
-        if(e.key === 'F'){
-            navigate('/admin/Film');
-        }else if(e.key === '2'){
-            navigate('/admin/showTime');
-        }else if(e.key === 'sub1'){
-            navigate('/admin/user');
-        }
+    useEffect(() => {
+        setUser(userState.userInfo);
+    }, [userState])
 
+    const Click = (e) => {
+        if (e.key === 'F') {
+            navigate('/admin/Film');
+        } else if (e.key === '2') {
+            navigate('/admin/film/showtime');
+        } else if (e.key === 'sub1') {
+            navigate('/admin/user');
+        } else if (e.key === 'A'){
+            navigate('/admin/film/addFilm');
+        }
     }
     const items = [
         getItem('User', 'sub1', <UserOutlined />),
         getItem('Files', '9', <FileOutlined />, [
             getItem('Film', 'F'),
+            getItem('Add Film', 'A'),
         ]),
         getItem('Show Time', '2', <DesktopOutlined />),
-    
+
     ];
     const [collapsed, setCollapsed] = useState(false);
+
+    const handleLogout = () => {
+        localStorage.removeItem(USER_INFO_KEY);
+
+        dispatch({
+            type: "USER_UPLOAD",
+            payload: null,
+        })
+
+        navigate('/admin/login');
+    }
     return (
         <Layout
             style={{
@@ -48,10 +72,18 @@ export default function AdminLayout() {
         >
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                 <div className="logo">
-                    <img className='w-100 p-2' src="https://pngimg.com/uploads/mma/mma_PNG14.png" alt="" />
+                    <span className='text-light p-3'><i className="fa-solid fa-film text-info fa-2x"></i>Cinema</span>
                 </div>
-                <Menu theme="dark" onClick={Click} mode="inline" items={items} />
-                <button onClick={() => navigate('/admin/login')}>Login</button>
+                <Menu theme="dark" defaultSelectedKeys={['sub1']} onClick={Click} mode="inline" items={items} />
+                {
+                    user ? <div className='text-center'>
+                        <span className='text-light'>Hello {user.hoTen}</span>
+                        <Button className='my-3 w-100' type='primary' onClick={() => {
+                            handleLogout();
+                            navigate('/admin/login');
+                        }}>Log Out</Button>
+                    </div> : ""
+                }
             </Sider>
             <Layout className="site-layout">
                 <Header

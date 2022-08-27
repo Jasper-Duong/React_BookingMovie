@@ -11,9 +11,70 @@ const fetchFilmListApi = () => {
     //     }
     // })
     return request({
-        url: '/QuanLyPhim/LayDanhSachPhim?maNhom=GP01',
+        url: '/QuanLyPhim/LayDanhSachPhim?maNhom=GP02',
         method: 'get',
     })
 };
 
-export {fetchFilmListApi};
+const deleteFilm = (maPhim) => {
+    return request({
+        url: `/QuanLyPhim/XoaPhim?MaPhim=${maPhim}`,
+        method: 'delete',
+        MaPhim: maPhim,
+    })
+}
+
+const addFilmUpLoadApi = (data) => {
+    return request({
+        url: "/QuanLyPhim/ThemPhimUpLoadHinh",
+        method: 'POST',
+        data,
+    })
+}
+
+const fetchFilmDetailApi = (maPhim) => {
+    return request({
+        url: `/QuanLyPhim/LayThongTinPhim?MaPhim=${maPhim}`,
+        method: "GET",
+    })
+}
+
+const updateFilmApi = (data) =>{
+    return request({
+        url: "/QuanLyPhim/CapNhatPhimUpload",
+        method: 'POST',
+        data,
+    })
+}
+
+const fetchCinemaListApi = () => {
+    return request({
+        url: "QuanLyRap/LayThongTinHeThongRap",
+        method: 'GET',
+    })
+}
+
+const fetchCinemaGroupListApi = (maRap) => {
+    return request({
+        url: `QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${maRap}`,
+        method: 'GET',
+    })
+}
+
+const createTimeApi = (data) => {
+    return request({
+        url: "/QuanLyDatVe/TaoLichChieu",
+        method: 'POST',
+        data,
+    })
+}
+
+export {fetchFilmListApi, 
+    deleteFilm, 
+    addFilmUpLoadApi, 
+    fetchFilmDetailApi, 
+    updateFilmApi, 
+    fetchCinemaListApi,
+    fetchCinemaGroupListApi,
+    createTimeApi,
+};

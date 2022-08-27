@@ -1,8 +1,13 @@
 
+let userInfo = localStorage.getItem("USER_INFO_KEY");
 
+if(userInfo){
+    userInfo = JSON.parse(userInfo);
+}
 
 const DEFAULT_STATE = {
-    userInfo:{}
+    userInfo,
+    userSelected:{},
 }
 
 export const userReducer = (state = DEFAULT_STATE, {type, payload}) => {
@@ -10,7 +15,12 @@ export const userReducer = (state = DEFAULT_STATE, {type, payload}) => {
         case "USER_UPLOAD":{
             state.userInfo = payload;
 
-            return {...state}
+            return {...state};
+        }
+        case "USER_SELECTED": {
+            state.userSelected = payload;
+
+            return {...state};
         }
         default:
             return state;

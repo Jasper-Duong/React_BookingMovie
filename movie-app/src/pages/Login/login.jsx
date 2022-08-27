@@ -38,10 +38,10 @@ export default function Login() {
     return (
         <form className="screen-1 w-50 mx-auto " onSubmit={handleSubmit}>
             <div className="email mt-3">
-                <label htmlFor="email" className='text-info'>Email Address</label>
+                <label htmlFor="email" className='text-info'>User</label>
                 <div className="sec-2">
                     <ion-icon name="mail-outline" />
-                    <input onChange={handleChange} className='w-100' type="text" name="taiKhoan" placeholder="Username@gmail.com" />
+                    <input onChange={handleChange} className='w-100' type="text" name="taiKhoan" placeholder="nguyenvanA" />
                 </div>
             </div>
             <div className="password">
