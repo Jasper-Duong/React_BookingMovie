@@ -1,3 +1,4 @@
+import { USER_SELECTED, USER_UPLOAD } from "../types/user.type";
 
 let userInfo = localStorage.getItem("USER_INFO_KEY");
 
@@ -12,12 +13,12 @@ const DEFAULT_STATE = {
 
 export const userReducer = (state = DEFAULT_STATE, {type, payload}) => {
     switch (type) {
-        case "USER_UPLOAD":{
+        case USER_UPLOAD:{
             state.userInfo = payload;
 
             return {...state};
         }
-        case "USER_SELECTED": {
+        case USER_SELECTED: {
             state.userSelected = payload;
 
             return {...state};

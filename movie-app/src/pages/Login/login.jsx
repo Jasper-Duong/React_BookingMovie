@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { USER_INFO_KEY } from '../../constants/common';
 import { LoginApi } from '../../services/login';
+import { setUserInfoAction } from '../../store/actions/user.action';
 import './index.scss'
 
 export default function Login() {
@@ -27,10 +28,7 @@ export default function Login() {
 
         const result = await LoginApi(state);
         localStorage.setItem(USER_INFO_KEY, JSON.stringify(result.data.content));
-        dispatch({
-            type: "USER_UPLOAD",
-            payload: result.data.content,
-        })
+        dispatch(setUserInfoAction(result.data.content));
 
         navigate("/admin/user");
         console.log(result);

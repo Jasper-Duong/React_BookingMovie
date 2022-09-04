@@ -1,7 +1,6 @@
 import React from 'react'
 import { Col, Input, notification, Row, Tabs } from 'antd';
-import { MailOutlined } from '@ant-design/icons';
-import { Menu, Switch } from 'antd';
+import { Menu} from 'antd';
 import { useState } from 'react';
 import { fetchShowTimeApi } from '../../services/showtime';
 import { useEffect } from 'react';

@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import React from 'react'
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux'
@@ -8,12 +9,16 @@ export default function ManagerGuard() {
     const navigate = useNavigate();
     useEffect(() => {
         if(!userState.userInfo){
-            alert('Không đủ quyền truy cập')
+            notification.success({
+              message: "Không đủ quyền truy cập"
+            })
             return navigate("/admin/login");
         }
 
         if(userState.userInfo && userState.userInfo.maLoaiNguoiDung !== "QuanTri"){
-            alert('Không đủ quyền truy cập');
+          notification.success({
+            message: "Không đủ quyền truy cập"
+          })
             return navigate("/admin/login");
         }
     },[]);
